@@ -1,7 +1,7 @@
 %YAML 1.2
 ---
 dataset_dir: ./data/48/
-train_output_dir:  /local_outputs/JIRNet/  # /<base_out_dir>/exp_name is recommended
+train_output_dir:  ./outputs/  # /<base_out_dir>/exp_name is recommended
 
 experiment_num: 3
 
