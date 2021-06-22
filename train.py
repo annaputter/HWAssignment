@@ -101,8 +101,8 @@ def train(cfg):
 
     start_epoch = read_ckp(cfg['train_output_dir'])
 
-    dataset_train = IconsDataset(cfg['dataset_dir'], split='train')
-    dataset_val = IconsDataset(cfg['dataset_dir'], split='val')
+    dataset_train = IconsDataset(cfg['dataset_dir'], split='train',output_folder=cfg['train_output_dir'])
+    dataset_val = IconsDataset(cfg['dataset_dir'], split='val',output_folder=cfg['train_output_dir'])
 
     dataloader_train = DataLoader(dataset_train, batch_size=cfg['batch_size'], num_workers=1, pin_memory=False, shuffle=True)
     dataloader_val = DataLoader(dataset_val, batch_size=cfg['batch_size'], num_workers=1, pin_memory=False,
@@ -119,7 +119,7 @@ def train(cfg):
 
     optimizer_use_model = None
     if start_epoch>0:
-        optimizer_use_model = os.path.join(os.path.join(cfg['train_output_dir'],'weight'),
+        optimizer_use_model = os.path.join(os.path.join(cfg['train_output_dir'],'weights'),
                                            'Optimizer_{}.pth'.format(start_epoch))
 
     max_epoch = cfg['max_epoch']
@@ -132,8 +132,8 @@ def train(cfg):
         torch.cuda.empty_cache()
 
         with torch.no_grad():
-            run_eval_epoch(dataset_val, epoch, net, cfg)
-            # run_epoch(dataloader_val, epoch, net, cfg, optimizer_use_model, mode = 'eval')
+            # run_eval_epoch(dataset_val, epoch, net, cfg)
+            run_epoch(dataloader_val, epoch, net, cfg, optimizer_use_model, mode = 'eval')
 
         torch.cuda.empty_cache()
 
